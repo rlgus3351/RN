@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { View, Text, Button, Switch, TextInput } from "react-native";
 
 const Component = () => {
+  //Number
   const [count, setCount] = useState(0);
+  //Boolean
   const [isOn, setIsOn] = useState(false);
+  //String
   const [name, setName] = useState("");
   return (
     <View>
