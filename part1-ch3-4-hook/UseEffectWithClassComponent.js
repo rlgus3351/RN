@@ -15,14 +15,15 @@ class Component extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log("prevProps: " + prevProps);
-        console.log("prevState: " + prevState);
+        console.log("prevProps: ", prevProps);
+        console.log("prevState: " ,prevState);
     }
 
     componentWillUnmount(){
         console.log("componentWillUnmount");
     }
     render(){
+        console.log("render");
         return(
             <View>
                 <Text>You Clicked {this.state.count}</Text>
@@ -31,3 +32,5 @@ class Component extends React.Component {
         );
     }
 }
+
+export default Component;
