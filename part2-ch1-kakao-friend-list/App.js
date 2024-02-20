@@ -1,11 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+
+import { StyleSheet, View } from 'react-native';
 import Header from './src/Header';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Profile from './src/Profile';
 import Margin from './src/Margin';
-import { myProfile,friendProfiles } from './src/data';
+import { friendProfiles, myProfile } from './src/data';
 import Division from './src/Division';
 import FreindSection from './src/FreindSection';
 import FriendList from './src/FriendList';
@@ -18,9 +18,9 @@ const bottomSpace = getBottomSpace();
 
 export default function App() {
 
-  const onPressArrow = ()=>{
+  const onPressArrow = () => {
     console.log("clicked arrow");
-  }
+  };
 
   return (
     <SafeAreaProvider>
@@ -39,11 +39,13 @@ export default function App() {
           friendProfileLen={friendProfiles.length}
           onPressArrow={onPressArrow}
         />
-
-        <FriendList
-          data={friendProfiles}/>
+        <FriendList data={friendProfiles}
+        />
       </SafeAreaView>
     </SafeAreaProvider>
+      
+    
+  
     
   );
 }
@@ -52,5 +54,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    paddingHorizontal:15,
+  
   },
 });
