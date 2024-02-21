@@ -9,7 +9,7 @@ export default(props)=>{
         <View style={{flexDirection:'row', justifyContent:'space-between'}}>
             <Text style={{color:"grey"}}>친구 {props.friendProfileLen}</Text>
             <TouchableOpacity onPress={props.onPressArrow}>
-                <MaterialIcons name="keyboard-arrow-down" size={24} color="ligthgrey" />
+                <MaterialIcons name={props.isOpened? "keyboard-arrow-down" : "keyboard-arrow-up"} size={24} color="ligthgrey" />
             </TouchableOpacity>
         
             {/* <MaterialIcons name="keyboard-arrow-up" size={24} color="black" /> */}

@@ -5,8 +5,46 @@ import Margin from "./Margin";
 
 const bottomSpace = getBottomSpace();
 export default (props) =>{
+    // case 1 : 삼항 연산자
+    // return props.isOpened? (
+    //     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom:getBottomSpace}}>
+    //         {props.data.map((item, index) => (
+    //             <View key={index}>
+    //                 <Profile
+    //                     uri={item.uri}
+    //                     name={item.name}
+    //                     introduction={item.introduction}
+    //                 />
+    //                 <Margin height={13}/>
+    //             </View>
+                
+    //         ))}
+    //     </ScrollView>
+    // ) : null;
+
+    // case 2 : if문으로 먼저 예외처리
+
+    // if(!props.isOpened) return null;
+    // return(
+    //     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom:getBottomSpace}}>
+    //         {props.data.map((item, index) => (
+    //             <View key={index}>
+    //                 <Profile
+    //                     uri={item.uri}
+    //                     name={item.name}
+    //                     introduction={item.introduction}
+    //                 />
+    //                 <Margin height={13}/>
+    //             </View>
+
+    //         ))}
+    //     </ScrollView>
+    // )
     
-    return(
+
+    // case 3 : && 이용
+
+    return props.isOpened && (
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom:getBottomSpace}}>
             {props.data.map((item, index) => (
                 <View key={index}>
@@ -20,5 +58,5 @@ export default (props) =>{
                 
             ))}
         </ScrollView>
-    )
-};
+    );
+}

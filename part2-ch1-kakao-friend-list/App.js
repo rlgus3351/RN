@@ -9,6 +9,8 @@ import { friendProfiles, myProfile } from './src/data';
 import Division from './src/Division';
 import FreindSection from './src/FreindSection';
 import FriendList from './src/FriendList';
+import { useState } from 'react';
+import TapBar from './src/TapBar';
 
 
 const statusBarHeight = getStatusBarHeight(true);
@@ -17,30 +19,38 @@ const bottomSpace = getBottomSpace();
 // console.log(`${Platform.OS} : ${statusBarHeight}, ${bottomSpace}`);
 
 export default function App() {
+  const [isOpened, setIsOpened] = useState(true);
 
   const onPressArrow = () => {
-    console.log("clicked arrow");
+    setIsOpened(!isOpened);
   };
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        <Header/>
-        <Margin height={10}/>
-        <Profile
-          uri={myProfile.uri}
-          name={myProfile.name}
-          introduction={myProfile.introduction}
-        />
-        <Margin height={15}/>
-        <Division/>
-        <Margin height={12}/>
-        <FreindSection
-          friendProfileLen={friendProfiles.length}
-          onPressArrow={onPressArrow}
-        />
-        <FriendList data={friendProfiles}
-        />
+        <View style={{flex:1, backgroundColor="yellow"}}>
+          <Header/>
+          <Margin height={10}/>
+          <Profile
+            uri={myProfile.uri}
+            name={myProfile.name}
+            introduction={myProfile.introduction}
+          />
+          <Margin height={15}/>
+          <Division/>
+          <Margin height={12}/>
+          <FreindSection
+            friendProfileLen={friendProfiles.length}
+            onPressArrow={onPressArrow} isOpened={isOpened}
+          />
+          <FriendList 
+            data={friendProfiles}
+            isOpened={isOpened}
+          />
+        </View>
+      
+        <TapBar/>
+        
       </SafeAreaView>
     </SafeAreaProvider>
       
