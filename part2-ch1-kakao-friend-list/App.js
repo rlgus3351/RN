@@ -7,10 +7,10 @@ import Profile from './src/Profile';
 import Margin from './src/Margin';
 import { friendProfiles, myProfile } from './src/data';
 import Division from './src/Division';
-import FreindSection from './src/FreindSection';
+import FriendSection from './src/FriendSection';
 import FriendList from './src/FriendList';
 import { useState } from 'react';
-import TapBar from './src/TapBar';
+import TabBar from './src/TabBar';
 
 
 const statusBarHeight = getStatusBarHeight(true);
@@ -20,51 +20,53 @@ const bottomSpace = getBottomSpace();
 
 export default function App() {
   const [isOpened, setIsOpened] = useState(true);
+  const [selectedTabIdx, setSelectedTabIdx] = useState(0);
 
   const onPressArrow = () => {
     setIsOpened(!isOpened);
   };
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={styles.container}>
-        <View style={{flex:1, backgroundColor="yellow"}}>
-          <Header/>
-          <Margin height={10}/>
-          <Profile
-            uri={myProfile.uri}
-            name={myProfile.name}
-            introduction={myProfile.introduction}
-          />
-          <Margin height={15}/>
-          <Division/>
-          <Margin height={12}/>
-          <FreindSection
-            friendProfileLen={friendProfiles.length}
-            onPressArrow={onPressArrow} isOpened={isOpened}
-          />
-          <FriendList 
-            data={friendProfiles}
-            isOpened={isOpened}
-          />
-        </View>
-      
-        <TapBar/>
-        
-      </SafeAreaView>
-    </SafeAreaProvider>
-      
-    
   
-    
+  <View style={styles.container}>
+      <View style={{
+          flex: 1,
+          paddingHorizontal: 15,
+      }}>
+        <Header />
+
+        <Margin height={10} />
+
+      <Profile
+        uri={myProfile.uri}
+        name={myProfile.name} 
+        introduction={myProfile.introduction}
+      />
+
+      <Margin height={15} />
+
+      <Division />
+
+      <Margin height={12} />
+        <FriendSection 
+          friendProfileLen={friendProfiles.length} 
+          onPressArrow={onPressArrow}
+          isOpened={isOpened}
+        />
+
+      <FriendList data={friendProfiles} isOpened={isOpened} />
+      
+      </View>
+
+      <TabBar selectedTabIdx={selectedTabIdx} setSelectedTabIdx={setSelectedTabIdx} />
+    </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    paddingHorizontal:15,
+    backgroundColor: "#fff",
+    paddingTop: statusBarHeight,
   
   },
 });
