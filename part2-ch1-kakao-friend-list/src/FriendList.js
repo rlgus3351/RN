@@ -45,7 +45,7 @@ export default (props) =>{
     // case 3 : && 이용
 
     return props.isOpened && (
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom:getBottomSpace}}>
+        <ScrollView showsVerticalScrollIndicator={false}>
             {props.data.map((item, index) => (
                 <View key={index}>
                     <Profile
