@@ -25,6 +25,7 @@ export default function App() {
   const onPressArrow = () => {
     setIsOpened(!isOpened);
   };
+
   const renderItem = ({item}) => (
     <View>
       <Profile
@@ -71,8 +72,8 @@ export default function App() {
         ItemSeparatorComponent={ItemSeparatorComponent}
         renderItem={renderItem}
         ListHeaderComponent={ListHeaderComponent}
-        showsVerticalScrollIndicator={false}
         ListFooterComponent={ListFooterComponent}
+        showsVerticalScrollIndicator={false}
       />
       
       <TabBar selectedTabIdx={selectedTabIdx} setSelectedTabIdx={setSelectedTabIdx} />
