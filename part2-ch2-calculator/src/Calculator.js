@@ -50,7 +50,9 @@ const InputContrainer = styled.View`
     padding: 10px 5px;
 `;
 
-
+const onPressNum = (num) =>{
+    setInput(num);
+}
 
 export default () =>{
     const [input, setInput] = useState(0);
@@ -62,6 +64,11 @@ export default () =>{
 
     return(
         <View style={{flex:1, width:250,justifyContent:'center'}}>
+            <Text>input : {input}</Text>
+            <Text>currentOperator : {currentOperator}</Text>
+            <Text>result:{result}</Text>
+            <Text>tempInput:{tempInput}</Text>
+            <Text>tempOperator:{tempOperator}</Text>
             {/* { 결과 } */}
             <InputContrainer>
                 <Text style={{color:"white", fontSize:35, textAlign:"right"}}>{input}</Text>
@@ -84,24 +91,14 @@ export default () =>{
             </ButtonContainer>
             {/* { 7 ~ x } */}
             <ButtonContainer>
-                <Button 
-                    type = "num"
-                    text ="7"
-                    onPress={()=> null}
-                    flex={1}
-                />
-                <Button 
-                    type = "num"
-                    text ="8"
-                    onPress={()=> null}
-                    flex={1}
-                />
-                <Button 
-                    type = "num"
-                    text ="9"
-                    onPress={()=> null}
-                    flex={1}
-                />
+                {[7,8,9].map((num)=>{
+                    <Button 
+                        type = "num"
+                        text ={`${num}`}
+                        onPress={()=> onPressNum(num)}
+                        flex={1}
+                    />
+                })}
                 <Button 
                     type = "operator"
                     text ="X"
@@ -112,52 +109,31 @@ export default () =>{
             </ButtonContainer>
             {/* { 4 ~ - } */}
             <ButtonContainer>
-                <Button 
-                    type = "num"
-                    text ="4"
-                    onPress={()=> null}
-                    flex={1}
-                />
-                <Button 
-                    type = "num"
-                    text ="5"
-                    onPress={()=> null}
-                    flex={1}
-                />
-                <Button 
-                    type = "num"
-                    text ="6"
-                    onPress={()=> null}
-                    flex={1}
-                />
-                <Button 
-                    type = "operator"
-                    text ="-"
-                    onPress={()=> null}
-                    flex={1}
-                />
-
+                {[4,5,6].map((num)=>{
+                        <Button 
+                            type = "num"
+                            text ={`${num}`}
+                            onPress={()=> onPressNum(num)}
+                            flex={1}
+                        />
+                    })}
+                    <Button 
+                        type = "operator"
+                        text ="-"
+                        onPress={()=> null}
+                        flex={1}
+                    />
             </ButtonContainer>
             {/* { 1 ~ +} */}
             <ButtonContainer>
-                <Button 
-                    type = "num"
-                    text ="1"
-                    onPress={()=> null}
-                    flex={1}
-                />
-                <Button 
-                    type = "num"
-                    text ="2"
-                    onPress={()=> null}
-                    flex={1}
-                />
-                <Button 
-                    type = "num"
-                    text ="3"
-                    onPress={()=> null}
-                    flex={1}
-                />
+                {[1,2,3].map((num)=>{
+                        <Button 
+                            type = "num"
+                            text ={`${num}`}
+                            onPress={()=> onPressNum(num)}
+                            flex={1}
+                        />
+                    })}
                 <Button 
                     type = "operator"
                     text ="+"
@@ -171,7 +147,7 @@ export default () =>{
                 <Button 
                     type = "num"
                     text ="0"
-                    onPress={()=> null}
+                    onPress={() => onPressNum(0)}
                     flex={3}
                 />
                 
