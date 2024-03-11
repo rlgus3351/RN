@@ -82,6 +82,6 @@ export const useCalculator = () => {
         onPressNum,
         onPressOperator,
         onPressReset,
-    
+
     };
 }
