@@ -2,7 +2,6 @@ import { Alert, FlatList, Image, Keyboard, KeyboardAvoidingView, Platform, Press
 import { useEffect, useRef } from 'react';
 import dayjs from 'dayjs';
 import DateTimePickerModal from "react-native-modal-datetime-picker"
-import {getStatusBarHeight} from 'react-native-iphone-x-helper';
 import {Ionicons} from '@expo/vector-icons'
 
 

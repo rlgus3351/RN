@@ -78,6 +78,7 @@ export const useTodoList = (selectedDate) => {
         console.log('result',result);
         if(result){
             const newTodoList = JSON.parse(result);
+            ////
             setTodoList(newTodoList);
         }
         
