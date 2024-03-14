@@ -23,13 +23,13 @@ export const useCalendar = (now) =>{
       const subtract1Month = () =>{
         const newSelectedDate = dayjs(selectedDate).subtract(1,'month');
         setSelectedDate(newSelectedDate);
-        console.log(selectedDate);
+        
       }
       
       const add1Month = () =>{
         const newSelectedDate = dayjs(selectedDate).add(1,'month');
         setSelectedDate(newSelectedDate);
-        console.log(selectedDate);
+        
       }
     return{selectedDate, setSelectedDate,isDatePickerVisible,showDatePicker,hideDatePicker,handleConfirm,subtract1Month,add1Month,}
 }

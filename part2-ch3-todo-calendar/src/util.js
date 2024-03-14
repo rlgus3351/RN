@@ -1,4 +1,12 @@
 import dayjs from "dayjs";
+import { getBottomSpace, getStatusBarHeight } from "react-native-iphone-x-helper";
+
+
+export const bottomSpace = getBottomSpace();
+
+export const statusBarHeight = getStatusBarHeight(true);
+
+export const ITEM_WIDTH = 220;
 
 export const fillEmptyColumns = (columns, start, end) =>{
     const filledColumns = columns.slice(0);
@@ -37,7 +45,7 @@ export const getCalendarColumns = (now) =>{
         const date = dayjs(start).add(i,"day");
         columns.push(date);
     }
-    console.log('columns 4월', columns);
+    // console.log('columns 4월', columns);
     const filledColumns = fillEmptyColumns(columns,start, end);
 
     return filledColumns; 
