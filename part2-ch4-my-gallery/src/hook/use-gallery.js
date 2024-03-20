@@ -1,11 +1,39 @@
 import * as ImagePicker from 'expo-image-picker';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Alert } from 'react-native';
 
 
-export const useGallery = () =>{
-    const [images, setImages] = useState([]);
+const defaultAlbum = {
+  id:1,
+  title : "기본",
+}
 
+
+export const useGallery = () =>{
+  const [images, setImages] = useState([]);
+
+
+  const [selectedAlbum, setSelectedAlbum] = useState(defaultAlbum);
+
+  const[albums, setAlbums] = useState([defaultAlbum]);
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const [albumTitle, setAlbumTitle] = useState("");
+ 
+  const addAlbum = () =>{
+    const lastId = albums.length === 0 ? 0 : albums[albums.length-1].id;
+    const newAlbum = {
+      id : lastId +1,
+      title : albumTitle,
+    };
+    setAlbumTitle([
+      ...albums,  
+      newAlbum
+    ])
+  
+  };
+  const resetAlbumTitle = () =>setAlbumTitle("");
   const pickImage = async () =>{
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes:ImagePicker.MediaTypeOptions.All,
@@ -26,7 +54,9 @@ export const useGallery = () =>{
     }
   };
 
-
+  const openModal = () => setModalVisible(true);
+  const closeModal = () => setModalVisible(false);
+  
   const onPressOpenGallery = () =>{
     pickImage();
   }
@@ -57,12 +87,18 @@ export const useGallery = () =>{
 
 
   return{  
-    images,
+    imageWithAddButton,
     pickImage,
     deleteImage,
-    imageWithAddButton,
-    
-
+    selectedAlbum,
+    setSelectedAlbum,
+    modalVisible,
+    openModal,
+    closeModal,
+    albumTitle,
+    setAlbumTitle,
+    addAlbum,
+    resetAlbumTitle,
 }
   
   
