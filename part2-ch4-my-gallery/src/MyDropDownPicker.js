@@ -4,14 +4,17 @@ import { Text, TouchableOpacity, View } from "react-native"
 const headerHeight = 50;
 
 
-export default ({selectedAlbumTitle,onPressAddAlbum}) =>{
+export default ({isDropdownOpen, onPressHeader,selectedAlbumTitle,onPressAddAlbum}) =>{
     return(
-        <View style={{
-            height: headerHeight,
-            
-            justifyContent:'center',
-            alignItems:'center',
-            }}>
+        
+        <TouchableOpacity 
+            onPress={onPressHeader}
+            style={{
+                height: headerHeight,
+                justifyContent:'center',
+                alignItems:'center',
+                }}
+        >
             <Text style={{fontWeight:"bold"}}>{selectedAlbumTitle}</Text>
             <TouchableOpacity 
                 onPress={onPressAddAlbum}
@@ -25,6 +28,18 @@ export default ({selectedAlbumTitle,onPressAddAlbum}) =>{
                 }}>
                 <Text style={{fontSize:12}}>앨범 추가</Text>
             </TouchableOpacity>
-        </View>
+            {isDropdownOpen && (
+                <View 
+                    style={{
+                        position:"absolute",
+                        top:headerHeight,
+                        width:"100%",
+                        height:100,
+                        backgroundColor:"lightblue"}}
+                >
+
+                </View>
+            )}
+        </TouchableOpacity>
     )
 }

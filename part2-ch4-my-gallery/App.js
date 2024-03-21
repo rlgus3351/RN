@@ -18,6 +18,9 @@ export default function App() {
     setAlbumTitle,
     addAlbum,
     resetAlbumTitle,
+    isDropdownOpen,
+    openDropDown,
+    closeDropDown,
   } = useGallery();
 
 
@@ -32,12 +35,21 @@ export default function App() {
     openModal();
   };
 
+  const onPressBackdrop = () =>{
+    closeModal();
+    
+  }
+  const onPressHeader = () =>{
+    openDropDown();
+  }
+
   const onSubmitEditing = () =>{
+    if(!albumTitle) return;
     addAlbum();
     closeModal();
     resetAlbumTitle();
   }
-  useEffect(()=>{console.log(albumTitle)},[albumTitle]); //  
+
   const renderItem = ({item:{id, uri}, index}) => {
     if(id=== -1){
       return (
@@ -66,21 +78,24 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       {/* 앨범 DropDown, 앨범 추가 버튼 */}
       <MyDropDownPicker 
+        isDropdownOpen={isDropdownOpen}
         selectedAlbumTitle = {selectedAlbum.title}
         onPressAddAlbum={onPressAddAlbum}
-        setAlbumTitle={setAlbumTitle}
-        onSubmitEditing={onSubmitEditing}
+        onPressHeader={onPressHeader}
       />
 
     {/* 앨범을 추가하는 TextInputModal */}
     <TextInputModal 
       modalVisible={modalVisible}
       albumTitle={albumTitle}
-    
+      setAlbumTitle={setAlbumTitle}
+      ronSubmitEditing={onSubmitEditing}
+      onPressBackdrop={onPressBackdrop}
     />
 
     {/* 이미지 리스트 */}
-      <FlatList 
+      <FlatList
+        style={{zIndex:-1}}
         data={imageWithAddButton}
         renderItem={renderItem}
         numColumns={3}

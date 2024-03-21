@@ -21,6 +21,8 @@ export const useGallery = () =>{
 
   const [albumTitle, setAlbumTitle] = useState("");
  
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const addAlbum = () =>{
     const lastId = albums.length === 0 ? 0 : albums[albums.length-1].id;
     const newAlbum = {
@@ -57,6 +59,11 @@ export const useGallery = () =>{
   const openModal = () => setModalVisible(true);
   const closeModal = () => setModalVisible(false);
   
+  const openDropDown = () => setIsDropdownOpen(true);
+  const closeDropDown = () => setIsDropdownOpen(false);
+
+
+
   const onPressOpenGallery = () =>{
     pickImage();
   }
@@ -99,6 +106,9 @@ export const useGallery = () =>{
     setAlbumTitle,
     addAlbum,
     resetAlbumTitle,
+    isDropdownOpen,
+    openDropDown,
+    closeDropDown,
 }
   
   
