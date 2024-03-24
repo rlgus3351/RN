@@ -109,6 +109,7 @@ export const useGallery = () =>{
     isDropdownOpen,
     openDropDown,
     closeDropDown,
+    albums,
 }
   
   

@@ -21,6 +21,7 @@ export default function App() {
     isDropdownOpen,
     openDropDown,
     closeDropDown,
+    albums,
   } = useGallery();
 
 
@@ -40,7 +41,11 @@ export default function App() {
     
   }
   const onPressHeader = () =>{
-    openDropDown();
+    if(isDropdownOpen){
+      closeDropDown();
+    }else{
+      openDropDown();
+    }
   }
 
   const onSubmitEditing = () =>{
@@ -82,6 +87,7 @@ export default function App() {
         selectedAlbumTitle = {selectedAlbum.title}
         onPressAddAlbum={onPressAddAlbum}
         onPressHeader={onPressHeader}
+        albums={albums}
       />
 
     {/* 앨범을 추가하는 TextInputModal */}
