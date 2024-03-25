@@ -22,6 +22,7 @@ export default function App() {
     openDropDown,
     closeDropDown,
     albums,
+    selectAlbum,
   } = useGallery();
 
 
@@ -50,13 +51,23 @@ export default function App() {
 
   const onSubmitEditing = () =>{
     if(!albumTitle) return;
+    // 1. 앨범에 타이틀 추가
+    console.log(albumTitle);
     addAlbum();
+    console.log(albums);
+    // 2. 모달 닫기 & TextInput의 value 초기화
     closeModal();
     resetAlbumTitle();
   }
 
+  const onPressAlbum = (album) =>{
+    selectAlbum(album);
+    closeDropDown();
+  }
+
+
   const renderItem = ({item:{id, uri}, index}) => {
-    if(id=== -1){
+    if(id === -1){
       return (
         <TouchableOpacity 
         onPress={onPressOpenGallery}
@@ -84,19 +95,22 @@ export default function App() {
       {/* 앨범 DropDown, 앨범 추가 버튼 */}
       <MyDropDownPicker 
         isDropdownOpen={isDropdownOpen}
-        selectedAlbumTitle = {selectedAlbum.title}
         onPressAddAlbum={onPressAddAlbum}
         onPressHeader={onPressHeader}
         albums={albums}
+        onPressAlbum={onPressAlbum}
+        selectedAlbum={selectedAlbum}
       />
 
-    {/* 앨범을 추가하는 TextInputModal */}
+    {/*  앨범을 추가하는 TextInputModal */}
     <TextInputModal 
       modalVisible={modalVisible}
       albumTitle={albumTitle}
       setAlbumTitle={setAlbumTitle}
-      ronSubmitEditing={onSubmitEditing}
+      onSubmitEditing={onSubmitEditing}
       onPressBackdrop={onPressBackdrop}
+      
+    
     />
 
     {/* 이미지 리스트 */}
@@ -105,6 +119,7 @@ export default function App() {
         data={imageWithAddButton}
         renderItem={renderItem}
         numColumns={3}
+      
       />
 
 

@@ -7,14 +7,13 @@ export default({
         setAlbumTitle,
         onSubmitEditing,
         onPressBackdrop,
-    }) =>{
+    }) => {
     
     return(
         <Modal
-            animationType="slide"
+            animationType="fade"
             transparent={true}
-            visible={modalVisible}  
-        >
+            visible={modalVisible}>
             <KeyboardAvoidingView
                 behavior={Platform.OS ==="ios" ? "padding": "height"}
                 style={{flex:1}}
@@ -27,13 +26,13 @@ export default({
                                     width:"100%",
                                     padding:10,
                                     borderColor:"lightgrey"
-
                                 }}
                             value={albumTitle}
-                            onChangeText={setAlbumTitle}
+                            onChangeText={setAlbumTitle}        
                             onSubmitEditing={onSubmitEditing}
                             autoFocus={true}
                         />
+                    
                     </SafeAreaView>       
                 </Pressable>
                 

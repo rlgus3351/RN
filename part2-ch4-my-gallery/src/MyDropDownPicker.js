@@ -4,7 +4,15 @@ import {SimpleLineIcons} from "@expo/vector-icons"
 const headerHeight = 50;
 
 
-export default ({isDropdownOpen, onPressHeader,selectedAlbumTitle,onPressAddAlbum, albums}) =>{
+export default ({
+    isDropdownOpen,
+    onPressHeader,
+    onPressAddAlbum,
+    albums,
+    onPressAlbum,
+    selectedAlbum,
+
+    }) => {
     return(
         <View>
             <TouchableOpacity
@@ -17,7 +25,7 @@ export default ({isDropdownOpen, onPressHeader,selectedAlbumTitle,onPressAddAlbu
                     flexDirection:'row',
                     }}
             >
-                <Text style={{fontWeight:"bold"}}>{selectedAlbumTitle}</Text>
+                <Text style={{fontWeight:"bold"}}>{selectedAlbum.title}</Text>
                 <SimpleLineIcons
                     name={isDropdownOpen? "arrow-down":"arrow-up"}
                     size={12}
@@ -45,15 +53,38 @@ export default ({isDropdownOpen, onPressHeader,selectedAlbumTitle,onPressAddAlbu
                         style={{
                             position:"absolute",
                             top:headerHeight,
+                            // alignSelf:'center',
                             width:"100%",
-                            height:100,
-                            backgroundColor:"lightblue"}}
+                            borderTopColor:'lightgrey',
+                            borderTopWidth:0.5,
+                            borderBottomColor:'lightgrey',
+                            borderBottomWidth:0.5,
+                            }}
                     >
+
                     {albums.map((album, index) =>{
-                        console.log(album);
-                        <TouchableOpacity key={`album-${index}`}>
-                            <Text>{album.title}</Text>
-                        </TouchableOpacity>
+                        const isSelectedAlbum = album.id === selectedAlbum.id;
+                        return(
+                            
+                            <TouchableOpacity 
+                                key={`album-${index}`}
+                                style={{
+                                    paddingVertical:12,
+                                    width:"100%",
+                                    justifyContent:'center',
+                                    alignItems:'center',
+                                    backgroundColor:'#ffffff',
+                                }}
+                                onPress={() => onPressAlbum(album)}>
+                                <Text 
+                                    style={{
+                                        
+                                        fontWeight:isSelectedAlbum ? "bold" : undefined
+                                
+                                        }}
+                                >{album.title}</Text>
+                            </TouchableOpacity>
+                        )
                     })}
                     </View>
                 )}

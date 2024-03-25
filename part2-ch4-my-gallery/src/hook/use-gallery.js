@@ -1,5 +1,5 @@
 import * as ImagePicker from 'expo-image-picker';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 
 
@@ -23,19 +23,28 @@ export const useGallery = () =>{
  
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const addAlbum = () =>{
+  const addAlbum = () => {
     const lastId = albums.length === 0 ? 0 : albums[albums.length-1].id;
     const newAlbum = {
-      id : lastId +1,
+      id : lastId + 1,
       title : albumTitle,
+      albumId : selectedAlbum.id,
     };
-    setAlbumTitle([
+
+    setAlbums([
       ...albums,  
-      newAlbum
+      newAlbum,
     ])
   
   };
-  const resetAlbumTitle = () =>setAlbumTitle("");
+
+  const selectAlbum = (album) => {
+    setSelectedAlbum(album);
+  };
+
+
+  const resetAlbumTitle = () => setAlbumTitle("");
+
   const pickImage = async () =>{
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes:ImagePicker.MediaTypeOptions.All,
@@ -51,6 +60,7 @@ export const useGallery = () =>{
       const newImage = {
         id: lastId+1 ,
         uri : result.assets[0].uri,
+        albumId : selectedAlbum.id,
       }
         setImages([...images,newImage]);
     }
@@ -60,6 +70,7 @@ export const useGallery = () =>{
   const closeModal = () => setModalVisible(false);
   
   const openDropDown = () => setIsDropdownOpen(true);
+
   const closeDropDown = () => setIsDropdownOpen(false);
 
 
@@ -84,14 +95,23 @@ export const useGallery = () =>{
     ]);
   };
 
+  const filteredImages = images.filter((image) => image.albumId === selectedAlbum.id);
   const imageWithAddButton = [
-    ...images,
+    
+    ...filteredImages,
     {
       id: -1,
       uri : "",
     }
   ]
 
+  useEffect(()=>{
+    console.log("1) images",images);
+  },[images]);
+
+  useEffect(()=>{
+    console.log("2) filteredImages",filteredImages);
+  },[filteredImages]);
 
   return{  
     imageWithAddButton,
@@ -110,7 +130,8 @@ export const useGallery = () =>{
     openDropDown,
     closeDropDown,
     albums,
-}
+    selectAlbum,
+  }
   
   
 }
