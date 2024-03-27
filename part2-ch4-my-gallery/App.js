@@ -3,6 +3,7 @@ import { StyleSheet,Button,Image, View,Platform, FlatList, SafeAreaView, Dimensi
 import { useGallery } from './src/hook/use-gallery';
 import MyDropDownPicker from './src/MyDropDownPicker';
 import TextInputModal from './src/TextInputModal';
+import BigImageModal from './src/BigImageModal';
 
 export default function App() {
   const { 
@@ -11,9 +12,9 @@ export default function App() {
     imageWithAddButton, 
     pickImage,
     deleteImage,
-    modalVisible,
-    openModal,
-    closeModal,
+    textInputmodalVisible,
+    openTextInputModal,
+    closeTextInputModal,
     albumTitle,
     setAlbumTitle,
     addAlbum,
@@ -23,6 +24,16 @@ export default function App() {
     closeDropDown,
     albums,
     selectAlbum,
+    deleteAlbum,
+    openBigImgModal,
+    closeBigImgModal,
+    bigImgmodalVisible,
+    selectImage,
+    selectedImage,
+    moveToPreviousImage,
+    moveToNextImage,
+    showPreviousArrow,
+    showNextArrow,
   } = useGallery();
 
 
@@ -34,11 +45,11 @@ export default function App() {
   const onLongPressImage = (imageId) => deleteImage(imageId);
 
   const onPressAddAlbum = () => {
-    openModal();
+    openTextInputModal();
   };
 
-  const onPressBackdrop = () =>{
-    closeModal();
+  const onPressTextInputModalBackdrop = () =>{
+    closeTextInputModal();
     
   }
   const onPressHeader = () =>{
@@ -52,21 +63,44 @@ export default function App() {
   const onSubmitEditing = () =>{
     if(!albumTitle) return;
     // 1. 앨범에 타이틀 추가
-    console.log(albumTitle);
+  
     addAlbum();
-    console.log(albums);
+    
     // 2. 모달 닫기 & TextInput의 value 초기화
-    closeModal();
+    closeTextInputModal();
     resetAlbumTitle();
   }
 
   const onPressAlbum = (album) =>{
     selectAlbum(album);
+    closeTextInputModal();
     closeDropDown();
   }
 
+  const onLongPressAlbum = (albumId)=>{
+    deleteAlbum(albumId);
+  };
 
-  const renderItem = ({item:{id, uri}, index}) => {
+
+  const onPressBigImgModalBackdrop = () =>{
+    closeBigImgModal();
+    
+  }
+  const onPressImage = (image) => {
+    
+    selectImage(image);
+    openBigImgModal();
+  };
+
+  const onPressLeftArrow = () =>{
+    moveToPreviousImage();
+  }
+  const onPressRightArrow = () =>{
+    moveToNextImage();
+  }
+
+  const renderItem = ({item:image, index}) => {
+    const {id, uri} = image;
     if(id === -1){
       return (
         <TouchableOpacity 
@@ -83,7 +117,7 @@ export default function App() {
   
     
     return (
-      <TouchableOpacity onLongPress={()=>onLongPressImage(id)}>
+      <TouchableOpacity onPress={() => onPressImage(image)} onLongPress={()=>onLongPressImage(id)}>
         <Image source={{uri}} style={{width:columnsSize, height:columnsSize}}/>
       </TouchableOpacity>
       );
@@ -100,18 +134,31 @@ export default function App() {
         albums={albums}
         onPressAlbum={onPressAlbum}
         selectedAlbum={selectedAlbum}
+        onLongPressAlbum = {onLongPressAlbum}
       />
 
     {/*  앨범을 추가하는 TextInputModal */}
     <TextInputModal 
-      modalVisible={modalVisible}
+      modalVisible={textInputmodalVisible}
       albumTitle={albumTitle}
       setAlbumTitle={setAlbumTitle}
       onSubmitEditing={onSubmitEditing}
-      onPressBackdrop={onPressBackdrop}
+      onPressBackdrop={onPressTextInputModalBackdrop}
       
     
     />
+    {/* 이미지를 크게 보는 Modal */}
+    <BigImageModal
+      modalVisible={bigImgmodalVisible}
+      onPressBackdrop={onPressBigImgModalBackdrop}
+      selectedImage = {selectedImage}
+      onPressLeftArrow = {onPressLeftArrow}
+      onPressRightArrow = {onPressRightArrow}
+      showPreviousArrow = {showPreviousArrow}
+      showNextArrow = {showNextArrow}
+    >
+
+    </BigImageModal>
 
     {/* 이미지 리스트 */}
       <FlatList

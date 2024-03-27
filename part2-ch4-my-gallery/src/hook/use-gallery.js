@@ -17,11 +17,14 @@ export const useGallery = () =>{
 
   const[albums, setAlbums] = useState([defaultAlbum]);
 
-  const [modalVisible, setModalVisible] = useState(false);
+  const [textInputmodalVisible, setTextInputmodalVisible] = useState(false);
+  const [bigImgmodalVisible, setBigImgModalVisible] = useState(false);
 
   const [albumTitle, setAlbumTitle] = useState("");
  
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const addAlbum = () => {
     const lastId = albums.length === 0 ? 0 : albums[albums.length-1].id;
@@ -34,7 +37,9 @@ export const useGallery = () =>{
     setAlbums([
       ...albums,  
       newAlbum,
-    ])
+    ]);
+
+    setSelectedAlbum(newAlbum);
   
   };
 
@@ -42,6 +47,26 @@ export const useGallery = () =>{
     setSelectedAlbum(album);
   };
 
+  const deleteAlbum = (albumId) =>{
+    if(albumId === defaultAlbum.id){
+      Alert.alert("기본 앨범은 삭제할 수 없어요!")
+      return; 
+    }
+    Alert.alert("앨범을 삭제하시겠어요?","",[
+      {
+        style:"cancel",
+        text:"아니요",
+      },
+      {
+        text:"네",
+        onPress:()=>{
+          const newAlbums = albums.filter((album) => album.id !== albumId);
+          setAlbums(newAlbums);
+          setSelectedAlbum(defaultAlbum);
+        },
+      },
+    ]);
+  }
 
   const resetAlbumTitle = () => setAlbumTitle("");
 
@@ -66,9 +91,14 @@ export const useGallery = () =>{
     }
   };
 
-  const openModal = () => setModalVisible(true);
-  const closeModal = () => setModalVisible(false);
+  const openTextInputModal = () => setTextInputmodalVisible(true);
+  const closeTextInputModal = () => setTextInputmodalVisible(false);
   
+  const openBigImgModal = () => setBigImgModalVisible(true);
+  const closeBigImgModal = () => setBigImgModalVisible(false);
+
+
+
   const openDropDown = () => setIsDropdownOpen(true);
 
   const closeDropDown = () => setIsDropdownOpen(false);
@@ -80,6 +110,7 @@ export const useGallery = () =>{
   }
 
   const deleteImage =(imageId) =>{
+  
     Alert.alert("이미지를 삭제하시겠어요?","",[
       {
         style:"cancel",
@@ -90,6 +121,7 @@ export const useGallery = () =>{
         onPress:()=>{
           const newImages = images.filter((image) => image.id !== imageId);
           setImages(newImages);
+  
         },
       },
     ]);
@@ -105,13 +137,37 @@ export const useGallery = () =>{
     }
   ]
 
-  useEffect(()=>{
-    console.log("1) images",images);
-  },[images]);
+  const selectImage = (image) =>{
+    setSelectedImage(image);
+  };
 
-  useEffect(()=>{
-    console.log("2) filteredImages",filteredImages);
-  },[filteredImages]);
+  const moveToPreviousImage =() => {
+    // filteredImages (현재 선택된 이미지)
+    if(!selectImage) return;
+    const selectedImageIndex = filteredImages.findIndex(image => image.id===selectedImage.id);
+    const previousImageIdx = selectedImageIndex-1;
+    if(previousImageIdx<0) return;
+    const previousImage = filteredImages[previousImageIdx]
+    setSelectedImage(previousImage);
+  }
+  
+  
+
+  const moveToNextImage =() => {
+    if(!selectImage) return;
+    const selectedImageIndex = filteredImages.findIndex(image => image.id===selectedImage.id);
+    const nextImageIdx = selectedImageIndex+1;
+    if(previousImageIdx>filteredImages.length-1 || previousImageIdx === -1) return;
+    const nextImage = filteredImages[nextImageIdx]
+    setSelectedImage(nextImage);
+  }
+
+  const showPreviousArrow = filteredImages.findIndex(image => image.id === selectedImage?.id) !== 0 ;
+  const showNextArrow = filteredImages.findIndex(image => image.id === selectedImage?.id) !== filteredImages.length-1 ;
+
+
+
+
 
   return{  
     imageWithAddButton,
@@ -119,9 +175,9 @@ export const useGallery = () =>{
     deleteImage,
     selectedAlbum,
     setSelectedAlbum,
-    modalVisible,
-    openModal,
-    closeModal,
+    textInputmodalVisible,
+    openTextInputModal,
+    closeTextInputModal,
     albumTitle,
     setAlbumTitle,
     addAlbum,
@@ -131,6 +187,16 @@ export const useGallery = () =>{
     closeDropDown,
     albums,
     selectAlbum,
+    deleteAlbum,
+    openBigImgModal,
+    closeBigImgModal,
+    bigImgmodalVisible,
+    selectImage,
+    selectedImage,
+    moveToPreviousImage,
+    moveToNextImage,
+    showPreviousArrow,
+    showNextArrow,
   }
   
   
