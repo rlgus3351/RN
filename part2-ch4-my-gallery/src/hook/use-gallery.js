@@ -144,8 +144,11 @@ export const useGallery = () =>{
   const moveToPreviousImage =() => {
     // filteredImages (현재 선택된 이미지)
     if(!selectImage) return;
+    // 선택된 폴더 안에 모달창으로 띄운 이미지 index 가져오기
     const selectedImageIndex = filteredImages.findIndex(image => image.id===selectedImage.id);
+    // 이전 이미지 index 가져오기
     const previousImageIdx = selectedImageIndex-1;
+    // 이미지 index가 0보다 작으면 없는 것 
     if(previousImageIdx<0) return;
     const previousImage = filteredImages[previousImageIdx]
     setSelectedImage(previousImage);
@@ -155,8 +158,11 @@ export const useGallery = () =>{
 
   const moveToNextImage =() => {
     if(!selectImage) return;
+    // 선택된 폴더 안에 모달창으로 띄운 이미지 index 가져오기
     const selectedImageIndex = filteredImages.findIndex(image => image.id===selectedImage.id);
+    // 다음 이미지 index 가져오기
     const nextImageIdx = selectedImageIndex+1;
+    // 선택된 폴더의 길이 -1 보다 크면 안되고, -1인경우는 findindex가 없는 값을 찾을 때 -1을 반환
     if(previousImageIdx>filteredImages.length-1 || previousImageIdx === -1) return;
     const nextImage = filteredImages[nextImageIdx]
     setSelectedImage(nextImage);
