@@ -15,16 +15,31 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+    
+      "config":{
+        "googleMobileAdsAppId":"ca-app-pub-3992652244356839~1870429299"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "config":{
+        "googleMobileAdsAppId":"ca-app-pub-3992652244356839~9873042392"
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins":[
+      [
+        "expo-ads-admob",
+        {
+          "userTrackingPermission" :"This identifier will be used to deliver personalaized ads to you."
+        }
+      ]
+    ]
   }
 }

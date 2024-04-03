@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { StyleSheet,Button,Image, View,Platform, FlatList, SafeAreaView, Dimensions, TouchableOpacity, Alert, Text} from 'react-native';
 import { useGallery } from './src/hook/use-gallery';
+import {useRewardAd} from './src/hook/use_reward-ad';
 import MyDropDownPicker from './src/MyDropDownPicker';
 import TextInputModal from './src/TextInputModal';
 import BigImageModal from './src/BigImageModal';
-
+import ImageList from './src/ImageList';
 export default function App() {
   const { 
     // images,
@@ -35,17 +36,48 @@ export default function App() {
     showPreviousArrow,
     showNextArrow,
   } = useGallery();
+  const { 
+    loadRewarAd,
+    isLoaded,
+    isClosed,
+    isRewarded,
+    resetAdValue,
+   } = useRewardAd();
+
+  useEffect(() =>{
+    if(isRewarded && isClosed){
+      openTextInputModal();
+      resetAdValue();
+    }
+  },[isRewarded, isClosed]);
 
 
-  const width = Dimensions.get('screen').width;
-  const columnsSize = width / 3;
+
+
+  
   const onPressOpenGallery = () =>{
     pickImage();
   }
   const onLongPressImage = (imageId) => deleteImage(imageId);
-
+  const onPressWatchAd = () => {
+    loadRewarAd();
+  }
   const onPressAddAlbum = () => {
-    openTextInputModal();
+    if(albums.length >=2){
+      Alert.alert("광고를 시청해야 앨범을 추가할 수 있습니다","",[
+        {
+          style:"cancel",
+          text:'닫기',
+        },
+        {
+          text:"광고 시청",
+          onPress : onPressWatchAd,
+        }
+    ]);
+      return;
+    } else{
+      openTextInputModal();
+    }
   };
 
   const onPressTextInputModalBackdrop = () =>{
@@ -99,30 +131,7 @@ export default function App() {
     moveToNextImage();
   }
 
-  const renderItem = ({item:image, index}) => {
-    const {id, uri} = image;
-    if(id === -1){
-      return (
-        <TouchableOpacity 
-        onPress={onPressOpenGallery}
-        style={{
-          width:columnsSize, height:columnsSize, backgroundColor:"lightgrey",
-          justifyContent:'center',
-          alignItems:"center",
-          }}>
-          <Text style={{fontWeight:"100",fontSize:45}}>+</Text>
-        </TouchableOpacity>
-        );
-    }
   
-    
-    return (
-      <TouchableOpacity onPress={() => onPressImage(image)} onLongPress={()=>onLongPressImage(id)}>
-        <Image source={{uri}} style={{width:columnsSize, height:columnsSize}}/>
-      </TouchableOpacity>
-      );
-  
-  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -161,11 +170,12 @@ export default function App() {
     </BigImageModal>
 
     {/* 이미지 리스트 */}
-      <FlatList
-        style={{zIndex:-1}}
-        data={imageWithAddButton}
-        renderItem={renderItem}
-        numColumns={3}
+      <ImageList
+        imagesWithAddButton = {imagesWithAddButton}
+        onPressOpenGallery = {onPressOpenGallery}
+        onPressImage = {onPressImage}
+        onLongPressImage = {onLongPressImage}
+        
       
       />
 
@@ -185,3 +195,9 @@ const styles = StyleSheet.create({
     marginTop:Platform.OS ==="android" ? 30 : 0,
   },
 });
+
+
+
+
+
+

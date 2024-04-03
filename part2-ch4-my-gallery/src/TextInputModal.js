@@ -10,14 +10,15 @@ export default({
     }) => {
     
     return(
-        <Modal
-            animationType="fade"
-            transparent={true}
-            visible={modalVisible}>
-            <KeyboardAvoidingView
+        <KeyboardAvoidingView
                 behavior={Platform.OS ==="ios" ? "padding": "height"}
-                style={{flex:1}}
+                
             >
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}>
+            
                 <Pressable onPress={onPressBackdrop} style={{flex:1}}>
                     <SafeAreaView style={{ width:"100%",position:'absolute',bottom:0}}>
                         <TextInput 
@@ -25,7 +26,8 @@ export default({
                             style={{
                                     width:"100%",
                                     padding:10,
-                                    borderColor:"lightgrey"
+                                    borderColor:"lightgrey",
+                                    backgroundColor:'white',
                                 }}
                             value={albumTitle}
                             onChangeText={setAlbumTitle}        
@@ -36,7 +38,7 @@ export default({
                     </SafeAreaView>       
                 </Pressable>
                 
-            </KeyboardAvoidingView>
-        </Modal>
+            </Modal>
+        </KeyboardAvoidingView>
     );
 }
