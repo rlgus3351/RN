@@ -2,11 +2,18 @@
 import { StyleSheet, Text, View,SectionList, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BusInfo from './src/BusInfo';
+import { COLOR } from './src/color';
 
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      <BusInfo/>
+      <BusInfo
+        isBookmarked={false}
+        onPressBookmark={()=>{}}
+        num={146}
+        directionDescription="강남역.강남역사거리"
+        numColor={COLOR.BUS_B}
+      />  
       {/* <SectionList
           sections={[
             {
