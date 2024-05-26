@@ -9,9 +9,9 @@ export default ({
     return(
         <TouchableOpacity style={{style}} onPress={onPress}>
             <Ionicons 
-                name="star" 
+                name="alarm-outline" 
                 size={24}
-                color={ isBookmarked ? COLOR.YELLOW : COLOR.GRAY_1}
+                color={COLOR.GRAY_3}
             />
         </TouchableOpacity>
     )
