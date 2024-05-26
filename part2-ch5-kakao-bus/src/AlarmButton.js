@@ -7,7 +7,7 @@ export default ({
         style,
     }) => {
     return(
-        <TouchableOpacity style={{style}} onPress={onPress}>
+        <TouchableOpacity style={style} onPress={onPress}>
             <Ionicons 
                 name="alarm-outline" 
                 size={24}

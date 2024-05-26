@@ -7,12 +7,12 @@ export default ({
         style,
     }) => {
     return(
-        <TouchableOpacity style={{style}} onPress={onPress}>
+        <TouchableOpacity style={style} onPress={onPress}>
             <Ionicons 
                 name="star" 
                 size={24}
                 color={ isBookmarked ? COLOR.YELLOW : COLOR.GRAY_1}
             />
         </TouchableOpacity>
-    )
+    );
 }
