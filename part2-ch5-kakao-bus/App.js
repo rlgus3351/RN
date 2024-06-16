@@ -12,7 +12,11 @@ export default function App() {
 
   const [now, setNow] = useState(dayjs());
 
-
+  const renderSectionHeader = ({ section: { title } }) => (
+    <View style={{ paddingLeft: 13, paddingVertical: 5, backgroundColor: COLOR.GRAY_1 }}>
+      <Text style={{ color: COLOR.GRAY_4 }}>{title}</Text>
+    </View>
+  );
   const renderItem = ({ item: bus }) => {
     const numColor = getBusNumColorByType(bus.type);
 
@@ -66,18 +70,23 @@ export default function App() {
 
   useEffect(() => {
     // 1초마다 현재시간 업데이트
-    setInterval(() => {
+    const interval = setInterval(() => {
       const newNow = dayjs();
       setNow(newNow);
     }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
+
   return (
     <SafeAreaView style={styles.container}>
 
       <SectionList
         style={{ flex: 1, width: "100%" }}
         sections={sections}
-        renderSectionHeader={({ section: { title } }) => <Text>{title}</Text>}
+        renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
       >
 
