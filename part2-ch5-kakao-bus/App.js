@@ -6,15 +6,31 @@ import { COLOR } from './src/color';
 import { busStop, getSections, getBusNumColorByType, getRemainedTimeText, getSeatStatusText } from './src/data';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import { SimpleLineIcons } from "@expo/vector-icons"
 
 export default function App() {
   const sections = getSections(busStop.buses);
 
   const [now, setNow] = useState(dayjs());
-
+  const ListHeaderComponent = () => {
+    <SafeAreaView style={{ backgroundColor: COLOR.GRAY_1 }}>
+      <View style={{ flexDirection: 'row' }}>
+        <SimpleLineIcons name='arrow-left' size={20} color={COLOR.WHITE} />
+        <SimpleLineIcons name='home' size={20} color={COLOR.WHITE} />
+      </View>
+    </SafeAreaView>
+  }
   const renderSectionHeader = ({ section: { title } }) => (
-    <View style={{ paddingLeft: 13, paddingVertical: 5, backgroundColor: COLOR.GRAY_1 }}>
-      <Text style={{ color: COLOR.GRAY_4 }}>{title}</Text>
+    <View style={{
+      paddingLeft: 13,
+      paddingVertical: 3,
+      backgroundColor: COLOR.GRAY_1,
+      borderTopWidth: 1,
+      borderBottomWidth: 1,
+      borderTopColor: COLOR.GRAY_2,
+      borderBottomColor: COLOR.GRAY_2,
+    }}>
+      <Text style={{ fontSize: 12, color: COLOR.GRAY_4 }}>{title}</Text>
     </View>
   );
   const renderItem = ({ item: bus }) => {
@@ -69,15 +85,15 @@ export default function App() {
   };
 
   useEffect(() => {
-    // 1초마다 현재시간 업데이트
-    const interval = setInterval(() => {
-      const newNow = dayjs();
-      setNow(newNow);
-    }, 1000);
+    // // 1초마다 현재시간 업데이트
+    // const interval = setInterval(() => {
+    //   const newNow = dayjs();
+    //   setNow(newNow);
+    // }, 1000);
 
-    return () => {
-      clearInterval(interval);
-    };
+    // return () => {
+    //   clearInterval(interval);
+    // };
   }, []);
 
   return (
@@ -86,6 +102,7 @@ export default function App() {
       <SectionList
         style={{ flex: 1, width: "100%" }}
         sections={sections}
+        ListHeaderComponent={ListHeaderComponent}
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
       >
