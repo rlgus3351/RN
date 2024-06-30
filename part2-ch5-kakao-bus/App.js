@@ -23,7 +23,11 @@ export default function App() {
 
   };
   const ListHeaderComponent = () => (
-    <SafeAreaView style={{ backgroundColor: COLOR.GRAY_3 }}>
+    <SafeAreaView style={{
+      backgroundColor: COLOR.GRAY_3,
+      height: 250,
+
+    }}>
       {/* 뒤로가기, 홈 아이콘 */}
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <TouchableOpacity style={{ padding: 10 }}>
@@ -43,12 +47,20 @@ export default function App() {
         <Margin height={4} />
         <Text style={{ color: COLOR.GRAY_1, fontSize: 14 }}>{busStop.directionDescription}</Text>
         <Margin height={20} />
+        {/* 북마크 */}
+        <BookmarkButtons
+          size={busStopBoomarkSize}
+          isBookmarked={busStop.isBookmarked}
+          onPress={onPressBusStopBookmark}
+          style={{
+            borderWidth: 0.3,
+            borderColor: COLOR.GRAY_1,
+            borderRadius: (busStopBoomarkSize + busStopBoomarkPadding * 2) / 2,
+            padding: busStopBoomarkPadding,
+          }}
+        />
+        <Margin height={25} />
       </View>
-      <BookmarkButtons
-        isBookmarked={busStop.isBookmarked}
-        onPress={onPressBusStopBookmark}
-        style={{ borderWidth: 0.3, borderColor: COLOR.GRAY_1 }}
-      />
     </SafeAreaView >
   )
   const renderSectionHeader = ({ section: { title } }) => (
@@ -116,6 +128,12 @@ export default function App() {
     )
   };
 
+  const ItemSeparatorComponent = () => (
+    <View style={{ width: "100%", height: 1, backgroundColor: COLOR.GRAY_1 }}></View>
+  )
+  const ListFooterComponent = () => (
+    <Margin height={30} />
+  )
   useEffect(() => {
     const interval = setInterval(() => {
       const newNow = dayjs();
@@ -135,7 +153,11 @@ export default function App() {
         ListHeaderComponent={ListHeaderComponent}
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
+        ItemSeparatorComponent={ItemSeparatorComponent}
+        ListFooterComponent={ListFooterComponent}
+
       />
+      <Margin height={30} />
     </View>
   );
 }
