@@ -18,7 +18,7 @@ export default ({
     isBookmarked: isBookmarkedProp,
     onPress,
     style,
-    NEWCOLOR,
+
 }) => {
 
     const { isBookmarked,

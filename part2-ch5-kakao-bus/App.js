@@ -116,6 +116,7 @@ export default function App() {
 
     return (
       <BusInfo
+        NEWCOLOR={NEWCOLOR}
         isBookmarked={bus.isBookmarked}
         onPressBookmark={() => { }} // TODO
         num={bus.num}
