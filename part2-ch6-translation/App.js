@@ -11,7 +11,7 @@ export default function App() {
 
   const { t, locale, setLocale } = useTranslation();
 
-  const { } = useCookie();
+  const { cookieKey } = useCookie();
 
 
 
@@ -21,8 +21,8 @@ export default function App() {
   return (
     <View style={styles.container}>
 
-      <Text>{t('cookie_1')}</Text>
-      <View style={styles.buttonsContariner}>
+      <Text>{t(cookieKey)}</Text>
+      <View style={styles.buttonsContainer}>
         <Button
           onPress={() => { setLocale("ko") }}
           isSelected={locale === "ko"}
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  buttonsContariner: {
+  buttonsContainer: {
 
     flexDirection: "row"
   },
