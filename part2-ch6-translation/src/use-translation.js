@@ -18,9 +18,9 @@ const i18n = new I18n({
     es
 });
 const deviceLanguage = getLocales()[0].languageCode;
-i18n.locale = deviceLanguage;
 
-const LOCALE_KEY = "locale";
+
+const LOCALE_KEY = "locale2";
 
 export const useTranslation = () => {
     const [locale, _setLocale] = useState(null);
@@ -32,13 +32,15 @@ export const useTranslation = () => {
 
     const init = async () => {
         const fs = await AsyncStorage.getItem(LOCALE_KEY);
-        console.log('fs', fs);
-        setLocale(deviceLanguage);
+        if (fs !== null) {
+            _setLocale(fs);
+        } else {
+            _setLocale(deviceLanguage);
+        }
     }
 
     useEffect(() => {
         init();
-        // setLocale(deviceLanguage);
     }, []);
     return {
         locale,
