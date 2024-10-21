@@ -17,7 +17,9 @@ export const useCookie = () => {
 
     useEffect(() => {
         const randomCookieKey = getRandomCookieKey();
-        setCookieKey(randomCookieKey);
+        setTimeout(() => {
+            setCookieKey(randomCookieKey);
+        }, 3000);
     }, []);
 
     return {

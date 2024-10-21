@@ -2,6 +2,7 @@ import { getLocales } from 'expo-localization'
 import { I18n } from 'i18n-js';
 import { useState, useEffect } from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { format } from "react-string-format";
 
 
 const ko = require('./lang/lang.ko.json');
@@ -17,6 +18,8 @@ const i18n = new I18n({
     zh,
     es
 });
+i18n.enableFallback = true;
+i18n.defaultLocale = "ko";
 const deviceLanguage = getLocales()[0].languageCode;
 
 
@@ -40,12 +43,14 @@ export const useTranslation = () => {
     }
 
     useEffect(() => {
+
         init();
     }, []);
     return {
         locale,
         setLocale,
         t: (scope) => i18n.t(scope, { locale }),
+        format,
     }
 
 }

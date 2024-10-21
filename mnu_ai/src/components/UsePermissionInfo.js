@@ -1,38 +1,49 @@
 
 import { Text, View, StyleSheet, SafeAreaView } from "react-native";
-import { Ionicons, SimpleLineIcons, AntDesign } from "@expo/vector-icons";
+
+
 
 
 const UsePermissionInfo = () => {
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.controlContainer}>
-                <AntDesign name="close" size={24} color="black" />
-            </View>
-            {/* <View style={[styles.container, styles.title]}></View>
-            <View style={styles.middleContainer}></View>
-            <View style={styles.bottomContainer}></View> */}
-        </SafeAreaView >
+        <View style={styles.Container}>
+            <View style={styles.ContentContainer}>
 
+                <Text style={styles.title}>사용 권한 안내</Text>
+
+            </View>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        backgroundColor: '#fff',
+    Container: {
+        width: "100%",
+        height: "100%",
+        justifyContent: "center",
+        alignItems: "center",
         flexDirection: 'column',
     },
-    controlContainer: {
+    ContentContainer: {
         width: "100%",
-        height: "10%",
-        backgroundColor: "#fff",
-        position: "absolute",
-        backgroundColor: "#1263ce",
+        marginTop: "80px",
+        // paddingHorizontal: "30px",
+        // paddingVertical: "20px",
+        backgroundColor: "coral",
+        justifyContent: "center",
+        height: "85%",
     },
+    textContainer: {
+        backgroundColor: "#ff3434",
+        paddingLeft: "30px",
+        width: "80%",
+    },
+    title: {
 
+        fontSize: 20,
+        fontWeight: "500",
+        textAlign: "left",
+    }
 
 });
 
