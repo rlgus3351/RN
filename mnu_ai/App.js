@@ -11,11 +11,11 @@ import UsePermissionInfo from './src/components/UsePermissionInfo';
 SplashScreen.preventAutoHideAsync();
 export default function App() {
 
-  useEffect(() => {
+  /* useEffect(() => {
     setTimeout(() => {
       SplashScreen.hideAsync();
     }, 1500);  // delay 1.5 seconds before hiding splash screen.
-  }, []);
+  }, []); */
 
   return (
     <SafeAreaView style={styles.container}>
