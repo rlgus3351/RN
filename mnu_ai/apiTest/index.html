@@ -4,35 +4,149 @@
 <head>
 	<meta charset="utf-8" />
 	<title>Kakao 지도 시작하기</title>
+	<style>
+		body {
+			background-image: linear-gradient(to right, #181b20 0%, black 100%);
+		}
+
+		h2 {
+			color: #c4d9ca;
+		}
+
+		.mapBOX {
+			padding: 10px;
+			border-radius: 10px;
+			border: 3px #233735 solid;
+		}
+
+		.title {
+			color: #333;
+		}
+
+		.modal {
+			display: none;
+			position: fixed;
+			z-index: 100;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.5);
+			/* 배경 어둡게 */
+		}
+
+		.modal-content {
+			margin: auto;
+			height: 50%;
+			background-color: white;
+			padding: 20px;
+			overflow-y: scroll;
+			border-radius: 5px;
+			width: 50%;
+		}
+
+		.close {
+			float: right;
+			font-size: 24px;
+			cursor: pointer;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+		tbody{
+			
+		}
+		th,
+		td {
+			border: 1px solid #ddd;
+			padding: 8px;
+			text-align: center;
+		}
+
+		th {
+			background-color: #f2f2f2;
+		}
+	</style>
 </head>
 
 <body>
-	<div style="display: flex; flex-direction: row; gap: 50px; grid: 2fr 2fr;">
-		<div>
-			<h2>바다누리 해양관측조위소</h2>
-			<div id="map1" style="width:500px;height:800px;"></div>
-		</div>
-		<div>
-			<h2>바다누리 조위관측소</h2>
-			<div id="map2" style="width:500px;height:800px;"></div>
-		</div>
-		<div>
-			<h2>기상청</h2>
-			<div id="map3" style="width:500px;height:800px;"></div>
-		</div>
-		<div>
-			<h2>목포대 부이부표 센서</h2>
-			<div id="map4" style="width:500px;height:800px;"></div>
-		</div>
+	<!-- 모달 트리거 버튼 -->
 
 
+	<!-- 모달 구조 -->
+	<div id="myModal" class="modal">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<h2 class="title">모달 제목</h2>
+			<!-- 테이블 -->
+			<table id="locationTable">
+				<thead>
+					<tr>
+						<th>번호</th>
+						<th>위도</th>
+						<th>경도</th>
+						<th>이름</th>
+						<th>기관</th>
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+			</table>
+		</div>
 	</div>
+
+	<div style="display: flex;  gap: 20px;">
+		<div style="display: grid; width: 50%; height: 100%; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+			<div class="mapBOX">
+				<div style="display: flex; flex-direction: row; justify-content: space-between;">
+					<h2>바다누리 해양관측조위소</h2>
+					<button style=" align-self :center; height: 50%;" id="openModalBtn1">모달 열기</button>
+				</div>
+				<div id="map1" style="width:100%;height:400px;"></div>
+			</div>
+			<div class="mapBOX">
+				<div style="display: flex; flex-direction: row; justify-content: space-between;">
+					<h2>바다누리 조위관측소</h2>
+
+					<button style=" align-self :center; height: 50%;" id="openModalBtn2">모달 열기</button>
+				</div>
+				<div id="map2" style="width:100%;height:400px;"></div>
+			</div>
+			<div class="mapBOX">
+				<div style="display: flex; flex-direction: row; justify-content: space-between;">
+					<h2>기상청</h2>
+
+					<button style=" align-self :center; height: 50%;" id="openModalBtn3">모달 열기</button>
+				</div>
+				<div id="map3" style="width:100%;height:400px;"></div>
+			</div>
+			<div class="mapBOX">
+				<div style="display: flex; flex-direction: row; justify-content: space-between;">
+					<h2>목포대 테스트베드</h2>
+					<button style=" align-self :center; height: 50%;" id="openModalBtn4">모달 열기</button>
+				</div>
+				<div id="map4" style="width:100%;height:400px;"></div>
+			</div>
+		</div>
+		<div style="display: grid; width: 50%;">
+			<div class="mapBOX">
+				<div style="display: flex; flex-direction: row; justify-content: space-between;">
+					<h2>범위 추출 관측소</h2>
+					<button style=" align-self :center; height: 50%;" id="openModalBtn5">모달 열기</button>
+				</div>
+				<div id="map5" style="width:100%;height:900px;"></div>
+			</div>
+		</div>
+	</div>
+
+
+
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0af781bc7fc98ee8c7f8874b0ba47b38&libraries=LIBRARY"></script>
-	<script type="text/javascript" src="./TOdata.json"></script>
-
-
 
 	<script>
 
@@ -40,11 +154,21 @@
 		let moData = [];
 		let oData = [];
 		let mokpoData = [];
+		let Data = [];
+
+
+		var img1 = "./icons/l1.png";
+		var img2 = "./icons/l2.png";
+		var img3 = "./icons/l3.png";
+		var img4 = "./icons/l4.png";
+		var imgArray = [img1, img2, img3, img4];
+
 
 		var container1 = document.getElementById('map1');
 		var options1 = {
-			center: new kakao.maps.LatLng(33.450701, 126.570667),
-			level: 14
+			center: new kakao.maps.LatLng(36.59450247418931, 127.83381172083136),
+			level: 13,
+			mapTypeId: kakao.maps.MapTypeId.HYBRID // 지도종류
 		};
 		var map1 = new kakao.maps.Map(container1, options1);
 
@@ -54,19 +178,20 @@
 
 				toData = data.map(el => ({
 					title: el.title,
-					latlng: new kakao.maps.LatLng(el.lat, el.long)
+					latlng: new kakao.maps.LatLng(el.lat, el.long),
+					org:"바다누리 해양관측조위소소"
 				}));
-				var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+				var imageSrc = "./icons/l1.png";
 				
 				for (var i = 0; i < toData.length; i++) {
 
 					// 마커 이미지의 이미지 크기 입니다
-					var imageSize = new kakao.maps.Size(24, 35);
+					var imageSize = new kakao.maps.Size(24, 24);
 
 					// 마커 이미지를 생성합니다    
 					var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-						
-					
+
+
 					// 마커를 생성합니다
 					var marker1 = new kakao.maps.Marker({
 						map: map1, // 마커를 표시할 지도
@@ -77,13 +202,14 @@
 				}
 			})
 			.catch(err => console.error('Error fetching TOdata:', err));
-			
-		
-			
+
+
+
 		var container2 = document.getElementById('map2');
 		var options2 = {
-			center: new kakao.maps.LatLng(33.450701, 126.570667),
-			level: 14
+			center: new kakao.maps.LatLng(36.59450247418931, 127.83381172083136),
+			level: 13,
+			mapTypeId: kakao.maps.MapTypeId.HYBRID // 지도종류
 		};
 
 		var map2 = new kakao.maps.Map(container2, options2);
@@ -92,21 +218,22 @@
 			.then(res => res.json()) // JSON 데이터를 파싱
 			.then(data => {
 				moData = data.map(el => ({
-					
+
 					title: el.title,
-					latlng: new kakao.maps.LatLng(el.lat, el.long)
+					latlng: new kakao.maps.LatLng(el.lat, el.long),
+					org:"바다누리 조위관측소"
 				}));
-				var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-				
+				var imageSrc = "./icons/l2.png";
+				console.log(moData.length);
 				for (var i = 0; i < moData.length; i++) {
 
 					// 마커 이미지의 이미지 크기 입니다
-					var imageSize = new kakao.maps.Size(24, 35);
+					var imageSize = new kakao.maps.Size(24, 24);
 
 					// 마커 이미지를 생성합니다    
 					var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-						
-					
+
+
 					// 마커를 생성합니다
 					var marker2 = new kakao.maps.Marker({
 						map: map2, // 마커를 표시할 지도
@@ -121,12 +248,13 @@
 
 
 
-		
+
 
 		var container3 = document.getElementById('map3');
 		var options3 = {
-			center: new kakao.maps.LatLng(33.450701, 126.570667),
-			level: 14
+			center: new kakao.maps.LatLng(36.59450247418931, 127.83381172083136),
+			level: 13,
+			mapTypeId: kakao.maps.MapTypeId.HYBRID // 지도종류
 		};
 		var map3 = new kakao.maps.Map(container3, options3);
 
@@ -135,15 +263,16 @@
 			.then(data => {
 				oData = data.map(el => ({
 					title: el.title,
-					latlng: new kakao.maps.LatLng(el.lat, el.long)
+					latlng: new kakao.maps.LatLng(el.lat, el.long),
+					org:"기상청 부이부표 센서"
 				}));
-				
-				var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-				
+
+				var imageSrc = "./icons/l3.png";
+
 				for (var i = 0; i < oData.length; i++) {
-					
+
 					// 마커 이미지의 이미지 크기 입니다
-					var imageSize = new kakao.maps.Size(24, 35);
+					var imageSize = new kakao.maps.Size(24, 24);
 
 					// 마커 이미지를 생성합니다    
 					var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
@@ -160,32 +289,34 @@
 
 
 
-		
+
 
 
 		var container4 = document.getElementById('map4');
 		var options4 = {
-			center: new kakao.maps.LatLng(33.450701, 126.570667),
-			level: 12
+			center: new kakao.maps.LatLng(34.843808539594065, 126.6465658410135),
+			level: 12,
+			mapTypeId: kakao.maps.MapTypeId.HYBRID // 지도종류
 		};
-		
+
 		var map4 = new kakao.maps.Map(container4, options4);
 
 		fetch('./mokpo.json')
 			.then(res => res.json()) // JSON 데이터를 파싱
 			.then(data => {
-				
+
 				mokpoData = data.map(el => ({
 					title: el.title,
-					latlng: new kakao.maps.LatLng(el.lat, el.long)
+					latlng: new kakao.maps.LatLng(el.lat, el.long),
+					org:"목포대 테스트베드 어장"
 				}));
-				
-				var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-				
+
+				var imageSrc = "./icons/l4.png";
+
 				for (var i = 0; i < mokpoData.length; i++) {
-					
+
 					// 마커 이미지의 이미지 크기 입니다
-					var imageSize = new kakao.maps.Size(24, 35);
+					var imageSize = new kakao.maps.Size(24, 24);
 
 					// 마커 이미지를 생성합니다    
 					var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
@@ -196,12 +327,132 @@
 						title: mokpoData[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
 						image: markerImage // 마커 이미지 
 					});
-					
+
 				}
 
 			})
 			.catch(err => console.error('Error fetching MOdata:', err));
+
+		var container5 = document.getElementById('map5');
+		var options5 = {
+			center: new kakao.maps.LatLng(34.4690461607912, 126.50348481291108),
+			level: 12,
+			mapTypeId: kakao.maps.MapTypeId.HYBRID // 지도종류
+		};
+
+		var map5 = new kakao.maps.Map(container5, options5);
+
+		fetch('./location.json')
+			.then(res => res.json()) // JSON 데이터를 파싱
+			.then(data => {
+
+				Data = data.map(el => ({
+					title: el.title,
+					latlng: new kakao.maps.LatLng(el.lat, el.long),
+					organ: el.organ,
+					org:el.org
+				}));
+
+
+
+
+				var imageSrc = "./icons/l4.png";
+				console.log(Data.length);
+				for (var i = 0; i < Data.length; i++) {
+
+					// 마커 이미지의 이미지 크기 입니다
+					var imageSize = new kakao.maps.Size(24, 24);
+					var imageSrc = imgArray[(Data[i].organ) - 1]
+					// 마커 이미지를 생성합니다    
+					var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+					// 마커를 생성합니다
+					var marker5 = new kakao.maps.Marker({
+						map: map5, // 마커를 표시할 지도
+						position: Data[i].latlng, // 마커를 표시할 위치
+						title: Data[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+						image: markerImage // 마커 이미지 
+					});
+
+				}
+
+			})
+			.catch(err => console.error('Error fetching MOdata:', err));
+
+		// 요소 참조
+		const modal = document.getElementById("myModal");
+		const openModalBtn = document.getElementById("openModalBtn");
+		const closeModal = document.getElementsByClassName("close")[0];
+
+
 	</script>
+	<script>
+		// 테이블 데이터 업데이트 함수
+
+		// 모달 닫기
+		closeModal.onclick = function () {
+			modal.style.display = "none";
+		};
+
+		// 배경 클릭 시 모달 닫기
+		window.onclick = function (event) {
+			if (event.target === modal) {
+				modal.style.display = "none";
+			}
+		};
+
+		// 각 버튼에 데이터 연결
+		document.getElementById("openModalBtn1").onclick = function () {
+			modalActiveForMap(toData);
+		};
+		document.getElementById("openModalBtn2").onclick = function () {
+			modalActiveForMap(moData);
+		};
+
+		document.getElementById("openModalBtn3").onclick = function () {
+			modalActiveForMap(oData);
+		};
+
+		document.getElementById("openModalBtn4").onclick = function () {
+			modalActiveForMap(mokpoData);
+		};
+
+		document.getElementById("openModalBtn5").onclick = function () {
+			modalActiveForMap(Data);
+		};
+
+		function updateTableData(data) {
+
+			const $tableBody = $("#locationTable tbody");
+
+			// 기존 데이터 초기화
+			$tableBody.empty();
+
+			// 새로운 데이터 삽입
+			$.each(data, function (index, item) {
+				console.log(item);
+				const row = `
+<tr>
+	<td>${index + 1}</td>
+	<td>${item.latlng.getLat()}</td>
+	<td>${item.latlng.getLng()}</td>
+	<td>${item.title}</td>
+	<td>${item.org}</td>
+</tr>
+`;
+				$tableBody.append(row);
+			});
+
+			// 모달 표시
+			$("#myModal").css("display", "block");
+		}
+
+		// 버튼 클릭 시 모달에 데이터 삽입 및 열기
+		function modalActiveForMap(data) {
+			updateTableData(data);
+		}
+
+	</script>
+
 </body>
 
 </html>
